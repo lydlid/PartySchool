@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "vue-cli-plugin-vuetify": "~2.4.3"
+  }
+}
