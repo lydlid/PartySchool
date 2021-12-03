@@ -25,12 +25,37 @@ app.use(express.json())
 app.post('/login', (req, res) => {
     console.log(req.body.username)
     console.log(req.body.password)
-    res.status(200).send({ test: '登录成功！' });
+
+    var login_pwd = req.body.password;
+    var login_acc = req.body.username;
+
+    var login = 'select password from accpwd where account = login_acc as pwd'
+    con.query(login, (err, result) => {
+        if(err){
+            console.log('查询失败');
+        }
+        else{
+            if(result[0].pwd == login_pwd){
+                res.status(200).send({test : '登陆成功！'});
+            }
+        }
+    })
 })
 
 app.post('/register', (req, res) => {
     console.log(req.body.username)
     console.log(req.body.password)
+
+    var regname = req.body.username;
+    var regpass = req.body.password;
+
+    var regi = 'insert into accpwd values(regname, regpass, 1)';//accpwd是我在我的mysql里面建的存储账号密码的表，最后的1是权限等级
+    con.query(regi, (err, res) => {
+        if(err){
+            console.log('更新失败');
+            throw err;
+        }
+    })
     res.status(200).send({ test: '注册成功！' });
 })
 
